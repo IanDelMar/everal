@@ -18,16 +18,6 @@ function everal_theme_options() {
    * passes to the OptionTree Settings API Class.
    */
   $everal_settings = array(
-	'contextual_help' => array(
-	  'content'       => array( 
-		array(
-		  'id'        => 'general_help',
-		  'title'     => 'General',
-		  'content'   => '<p>Help content goes here!</p>'
-		)
-	  ),
-	  'sidebar'       => '<p>Sidebar content goes here!</p>',
-	),
 	'sections'        => array(
 	  array(
 		'id'          => 'general',
@@ -197,6 +187,24 @@ function everal_theme_options() {
 					'src'   => ''
 				)
 			)
+		),
+		array(
+			'id'           => 'large_logo_font_size',
+			'label'        => __( 'Large logo font size', 'everal' ),
+			'desc'         => __( 'Set the font size for main logo.', 'everal' ),
+			'std'          => '50',
+			'type'         => 'numeric-slider',
+			'section'      => 'fonts',
+			'min_max_step' => '10,80,1'
+		),
+		array(
+			'id'           => 'scrolled_logo_font_size',
+			'label'        => __( 'Scrolled logo font size', 'everal' ),
+			'desc'         => __( 'Set the font size for main logo when the page is scrolled.', 'everal' ),
+			'std'          => '34',
+			'type'         => 'numeric-slider',
+			'section'      => 'fonts',
+			'min_max_step' => '10,80,1'
 		)
 	)
   );
