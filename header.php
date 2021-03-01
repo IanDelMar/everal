@@ -105,6 +105,7 @@ if ( ( EVERAL_LAYOUT == 'sidebar-left' && is_active_sidebar( 'sidebar-1' ) ) || 
 					}
 					?>
 				</div>
+				<?php if ( has_nav_menu( 'primary' ) ) { ?>
 				<button type="button" class="navbar-toggle visible-xs visible-sm" data-toggle="collapse" data-target=".site-navigation">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -123,6 +124,7 @@ if ( ( EVERAL_LAYOUT == 'sidebar-left' && is_active_sidebar( 'sidebar-1' ) ) || 
 						);
 					?>
 				</nav>
+				<?php } ?>
 			</div>
 		</div>
 		<div class="clearfix"></div>
