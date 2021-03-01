@@ -6,6 +6,8 @@
  *
  */
 
+ var everal = {};
+
 ( function( $ ) {
 	var body    = $( 'body' ),
 		_window = $( window );
@@ -133,18 +135,6 @@
 	} );
 
 	$( function() {
-		// Search toggle.
-		// $( '.search-toggle' ).on( 'click.everal', function( event ) {
-		// 	var that    = $( this ),
-		// 		wrapper = $( '.search-box-wrapper' );
-
-		// 	that.toggleClass( 'active' );
-		// 	wrapper.toggleClass( 'hide' );
-
-		// 	if ( that.is( '.active' ) || $( '.search-toggle .screen-reader-text' )[0] === event.target ) {
-		// 		wrapper.find( '.search-field' ).focus();
-		// 	}
-		// } );
 
 		/*
 		 * Fixed header for large screen.
@@ -181,3 +171,221 @@
 		} );
 	} );
 } )( jQuery );
+
+
+// /*------------------------------------------------------------
+//  * FUNCTION: Ajax Load Pages
+//  *------------------------------------------------------------*/
+
+// function ajaxLoadPages(){
+
+// 	// if( everal.ajaxEnabled === false ) { return; }
+
+
+// 	var hashedLink;
+
+// 	// Chrome Bug: triggers popstate on init page load.
+// 	// Solution: define var and make it true on first popstate/push
+// 	var popped = false;
+
+
+
+// 	// Event: Link clicked
+// 	jQuery('html').on('click','a',function(e) {
+// 		var href = jQuery(this).attr('href');
+
+// 		if( isExternal(href) ){
+// 			return;
+// 		}
+
+// 		// assume that clicked link is hashed
+// 		hashedLink = true;
+
+// 		if (
+// 			( !jQuery(this).is(".ab-item, .comment-reply-link, #cancel-comment-reply-link, .comment-edit-link, .wp-playlist-caption, .js-skip-ajax") ) &&
+// 			( href.indexOf('#') == -1 ) &&
+// 			( href.indexOf('wp-login.php') == -1 ) &&
+// 			( href.indexOf('/wp-admin/') == -1 ) &&
+// 			( href.indexOf('wp-content/uploads/') == -1 ) &&
+// 			( jQuery(this).attr('target') != '_blank' )
+// 		){
+// 			e.preventDefault();
+// 			popped = true;
+// 			hashedLink = false;
+
+// 			// change only main content and leave sidebar intact
+// 			var pagination = jQuery(this).is('.page-numbers') ? true : false;
+// 			push_state(href, pagination);
+// 		}
+
+// 	});
+
+
+
+// 	// Event: Popstate - Location History Back/Forward
+// 	jQuery(window).on('popstate',function(){
+// 		// if hashed link, load native way
+// 		// popped? don't trigger on init page load [chrome bug]
+// 		if(!hashedLink && popped){
+// 			ajaxLoadPage(location.href);
+// 		}
+// 		popped = true;
+// 	});
+
+
+
+// 	// Function: PushState and trigger ajax loader
+// 	function push_state(href, pagination){
+// 		history.pushState({page: href}, '', href);
+// 		ajaxLoadPage(href, pagination);
+// 	}
+
+
+
+// 	// Function: Ajax Load Page
+// 	function ajaxLoadPage(href, pagination) {
+
+// 		jQuery('body').removeClass('ajax-main-content-loading-end ajax-content-wrapper-loading-end');
+// 		if( everal.xhr ){
+// 			everal.xhr.abort();
+// 		}
+
+// 		var timeStarted = 0;
+
+// 		if( pagination ){
+// 			// Classic pagination
+
+// 			jQuery('body').addClass('ajax-main-content-loading-start');
+// 			jQuery('body').removeClass('touchscreen-header-open'); // close header on touch devices
+
+// 			timeStarted = new Date().getTime();
+
+// 			everal.xhr = jQuery.ajax({
+// 				type: "GET",
+// 				url: href,
+// 				success: function(data, response, xhr){
+
+// 					// Check if css animation had time to finish
+// 					// before new page load animation starts
+// 					var now = new Date().getTime();
+// 					var timeDiff = now - timeStarted;
+// 					if( timeDiff < 1000 ) {
+// 						setTimeout( ajaxLoadPageCallback, (1000-timeDiff) );
+// 					}else{
+// 						ajaxLoadPageCallback();
+// 					}
+
+// 					function ajaxLoadPageCallback(){
+// 						var $data = jQuery(data);
+
+// 						// Update Page Title in browser window
+// 						var pageTitle = $data.filter('title').text();
+// 						document.title = pageTitle;
+
+// 						jQuery('#main-content').html( $data.find('.main-content__inside') );
+
+// 						scrollPageToTop();
+
+// 						jQuery('#main-content').waitForImages(function(){
+// 							jQuery('body').addClass('ajax-main-content-loading-end');
+// 							jQuery('body').removeClass('ajax-main-content-loading-start');
+// 							jQuery(document).trigger('everal:ajaxPageLoad');
+// 						});
+
+// 						ajaxPushGoogleAnalytics(href);
+// 					}
+// 				},
+
+// 				error: function(){
+// 					jQuery('body').addClass('ajax-main-content-loading-end');
+// 					jQuery('body').removeClass('ajax-main-content-loading-start');
+// 				}
+// 			});
+
+// 		} else {
+// 			// Page Navigation
+
+// 			jQuery('body').addClass('ajax-content-wrapper-loading-start');
+// 			jQuery('body').removeClass('touchscreen-header-open'); // close header on touch devices
+
+// 			timeStarted = new Date().getTime();
+
+// 			scrollPageToTop();
+
+// 			everal.xhr = jQuery.ajax({
+// 				type: "GET",
+// 				url: href,
+// 				success: function(data, response, xhr){
+
+// 					// Check if css animation had time to finish
+// 					// before new page load animation starts
+// 					var now = new Date().getTime();
+// 					var timeDiff = now - timeStarted;
+// 					if( timeDiff < 1000 ) {
+// 						setTimeout( ajaxLoadPageCallback, (1000-timeDiff) );
+// 					}else{
+// 						ajaxLoadPageCallback();
+// 					}
+
+// 					function ajaxLoadPageCallback(){
+// 						var $data = jQuery(data);
+
+// 						// Update Page Title in browser window
+// 						var pageTitle = $data.filter('title').text();
+// 						document.title = pageTitle;
+
+// 						jQuery('.site-main').html( $data.find('.main-content') );
+
+// 						// jQuery('.site-main').waitForImages(function(){
+// 						// 	jQuery('body').addClass('ajax-content-wrapper-loading-end');
+// 						// 	jQuery('body').removeClass('ajax-content-wrapper-loading-start');
+// 						// 	jQuery(document).trigger('everal:ajaxPageLoad');
+// 						// });
+			
+// 						jQuery('body').addClass('ajax-content-wrapper-loading-end');
+// 						jQuery('body').removeClass('ajax-content-wrapper-loading-start');
+
+// 					//	ajaxPushGoogleAnalytics(href);
+// 					}
+// 				},
+
+// 				error: function(){
+// 					jQuery('body').addClass('ajax-content-wrapper-loading-end');
+// 					jQuery('body').removeClass('ajax-content-wrapper-loading-start');
+// 				}
+// 			});
+
+// 		}
+// 	}
+
+
+
+// 	// Function: RegExp: Check if url external
+// 	function isExternal(url) {
+// 		var match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
+// 		if (typeof match[1] === "string" && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
+// 		if (typeof match[2] === "string" && match[2].length > 0 && match[2].replace(new RegExp(":("+{"http:":80,"https:":443}[location.protocol]+")?$"), "") !== location.host) return true;
+// 		return false;
+// 	}
+
+// }
+// jQuery(document).ready( ajaxLoadPages );
+
+// /*------------------------------------------------------------
+//  * FUNCTION: Scroll Page Back to Top
+//  * Used for ajax navigation scroll position reset
+//  *------------------------------------------------------------*/
+
+// function scrollPageToTop(){
+// 	// Height hack for mobile/tablet
+// 	jQuery('body').css('height', 'auto');
+// 	jQuery("html, body").animate({ scrollTop: 0 }, "slow");
+
+// 	// if( everal.device != 'desktop' ){
+// 		// jQuery('body').scrollTop(0);
+// 	// }else{
+// 	// 	jQuery('.content-wrapper').scrollTop(0);
+// 	// }
+
+// 	jQuery('body').css('height', '');
+// }

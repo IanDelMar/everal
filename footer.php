@@ -40,6 +40,10 @@
 				<?php 
 				$show_scroll_to_top = ot_get_option('show__scroll_to_top__button');
 
+				if ( !isset( $show_scroll_to_top[0] ) ) {
+					$show_scroll_to_top[0] = 'false';
+				}
+
 				if ( $show_scroll_to_top[0] == 'true' ) {
 				?>
 					<a class="scroll-to-top" href="#"><?php _e( 'Up', 'everal' ); ?></a>

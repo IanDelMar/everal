@@ -41,8 +41,14 @@
 <?php
 global $site_width;
 
-$site_width  = 'col-sm-12 col-md-12 col-lg-12';
-$layout_type = get_post_meta(get_the_id(), 'layouts', true);
+$form_class    = '';
+$class         = '';
+$site_width    = 'col-sm-12 col-md-12 col-lg-12';
+$layout_type   = get_post_meta(get_the_id(), 'layouts', true);
+
+if ( !isset($search_string) ) {
+	$search_string = '';
+}
 
 if ( is_archive() || is_search() || is_404() ) {
 	$layout_type = 'full';

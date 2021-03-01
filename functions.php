@@ -539,6 +539,46 @@ class Header_Menu_Walker extends Walker_Nav_Menu {
 
 		$attributes  = '';
 
+		if ( !isset($item->target) ) {
+			$item->target = '';
+		}
+
+		if ( !isset($item->attr_title) ) {
+			$item->attr_title = '';
+		}
+
+		if ( !isset($item->xfn) ) {
+			$item->xfn = '';
+		}
+
+		if ( !isset($item->url) ) {
+			$item->url = '';
+		}
+
+		if ( !isset($item->title) ) {
+			$item->title = '';
+		}
+
+		if ( !isset($item->ID) ) {
+			$item->ID = '';
+		}
+
+		if ( !isset($args['link_before']) ) {
+			$args['link_before'] = '';
+		}
+
+		if ( !isset($args['before']) ) {
+			$args['before'] = '';
+		}
+
+		if ( !isset($args['link_after']) ) {
+			$args['link_after'] = '';
+		}
+
+		if ( !isset($args['after']) ) {
+			$args['after'] = '';
+		}
+
 		! empty( $item->attr_title )
 			and $attributes .= ' title="'  . esc_attr( $item->attr_title ) .'"';
 		! empty( $item->target )
@@ -550,14 +590,14 @@ class Header_Menu_Walker extends Walker_Nav_Menu {
 
 		$title = apply_filters( 'the_title', $item->title, $item->ID );
 
-		$item_output = $args->before
+		$item_output = $args['before']
 			. "<a $attributes>"
-			. $args->link_before
+			. $args['link_before']
 			. '<span>' . $title . '</span>'
 			. $description
 			. '</a> '
-			. $args->link_after
-			. $args->after;
+			. $args['link_after']
+			. $args['after'];
 
 		// Since $output is called by reference we don't need to return anything.
 		$output .= apply_filters(
