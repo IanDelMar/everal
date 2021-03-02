@@ -4,10 +4,10 @@ Theme URI: http://cohhe.com/project-view/everal/
 Author: Cohhe
 Author URI: http://cohhe.com/
 Description: Everal is a responsive, free WordPress blog theme that lets you customize a wide variety of features from the comfort of your Dashboard.
-Version: 1.1
+Version: 1.2
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: black, green, white, light, dark, two-columns, three-columns, left-sidebar, right-sidebar, fixed-layout, responsive-layout, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
+Tags: two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
 Text Domain: everal 
 
 This theme, like WordPress, is licensed under the GPL.
@@ -1974,6 +1974,7 @@ article .entry-content dd {
 
 .widget .divider {
 	position: relative;
+	display: inline-block;
 }
 
 .widget .divider:after {
@@ -3221,6 +3222,11 @@ div.wpcf7-mail-sent-ok {
 	.swiper-slide .slider-content p {
 		font-size: 120%;
 		line-height: 28px;
+	}
+
+	body .site-content article.type-post,
+	body .site-content article.type-page {
+		float: none !important;
 	}
 }
 
